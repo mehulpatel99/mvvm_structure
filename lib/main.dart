@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/Utills/Routes/routes_name.dart';
+
+import 'Utills/Routes/routes.dart';
 void main(){
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Mymvvm(),
+    return const MaterialApp(
+       initialRoute: RoutesName.login,
+      onGenerateRoute: Routes.generateRoute,
     );
-  }
-}
-class Mymvvm extends StatefulWidget {
-  const Mymvvm({super.key});
-
-  @override
-  State<Mymvvm> createState() => _MymvvmState();
-}
-
-class _MymvvmState extends State<Mymvvm> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
