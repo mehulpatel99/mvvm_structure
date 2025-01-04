@@ -27,4 +27,9 @@ class Utils{
    return ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(content: Text(msg),backgroundColor: Colors.green,));
   }
+
+  static fieldFocus(BuildContext context, {required FocusNode currentFocus, nextFocus}){
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 }
