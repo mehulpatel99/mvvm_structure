@@ -1,20 +1,20 @@
-import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm/Resources/Components/round_btn.dart';
 import 'package:mvvm/Utills/Routes/routes_name.dart';
-import 'package:mvvm/View_Model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../Resources/Components/round_btn.dart';
 import '../Utills/utils.dart';
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import '../View_Model/auth_view_model.dart';
+
+class SignupView extends StatefulWidget {
+  const SignupView({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupViewState extends State<SignupView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
@@ -37,50 +37,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authViewModel =   Provider.of<AuthViewModel>(context);
+    final authViewModel = Provider.of<AuthViewModel>(context);
 
     final height = MediaQuery.sizeOf(context).height*1;
 
     return Scaffold(
-      body:SafeArea(child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-         emailTextField(),
-        passTextField(),
-        SizedBox(height: height * .085),
-        loginBtn(authViewModel : authViewModel),
-          SizedBox(height: height * .02,),
-          InkWell(
-              onTap: (){
-                Navigator.pushNamed(context, RoutesName.signUp);
-              },
-              child: Text("Don't have an account? SignUp"))
-      ],
-    ))
+        body:SafeArea(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            emailTextField(),
+            passTextField(),
+            SizedBox(height: height * .085),
+            loginBtn(authViewModel : authViewModel),
+            SizedBox(height: height * .02,),
+            InkWell(
+                onTap: (){
+                    Navigator.pushNamed(context, RoutesName.login);
+                },
+                child: Text("Already have an account? Login"))
+          ],
+        ))
     );
   }
 
   loginBtn({required AuthViewModel authViewModel}) {
-    return RoundBtn(title: "Login",
-          loading: authViewModel.loading,
-          onPress: () async {
-            if(emailController.text.isEmpty){
-              Utils.flushBar("Please Enter Email", context);
-            }else if(passController.text.isEmpty){
-              Utils.flushBar("Please Enter password", context);
-            }else if(passController.text.length < 6){
-              Utils.flushBar("Please Enter 6 digit password", context);
-            }else{
-              Map data = {
-                "email": /*emailController.text.toString()*/"eve.holt@reqres.n",
-                "password": /*passController.text.toString(),*/"cityslicka",
-              };
-         await authViewModel.loginApi(context,data).then((value){
-             print("response ${value}");
-           });
-           // print("response $response");
-            }
-          });
+    return RoundBtn(title: "SignUp",
+        loading: authViewModel.signUploading,
+        onPress: () async {
+          if(emailController.text.isEmpty){
+            Utils.flushBar("Please Enter Email", context);
+          }else if(passController.text.isEmpty){
+            Utils.flushBar("Please Enter password", context);
+          }else if(passController.text.length < 6){
+            Utils.flushBar("Please Enter 6 digit password", context);
+          }else{
+            Map data = {
+              "email": emailController.text.toString(),//"eve.holt@reqres.n",
+              "password": passController.text.toString(),//"cityslicka",
+            };
+            await authViewModel.signUpApi(context,data).then((value){
+              print("response ${value}");
+            });
+            // print("response $response");
+          }
+        });
 
   }
 
