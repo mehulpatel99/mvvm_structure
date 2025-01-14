@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/Utills/Routes/routes_name.dart';
+import 'package:mvvm/View_Model/user_view_model.dart';
+import 'package:provider/provider.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -9,9 +12,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final sessionManager = Provider.of<UserViewModel>(context);
+    return  Scaffold(
       body: Center(
-        child: Text("Home Screen"),
+        child: InkWell(
+            onTap: (){
+              sessionManager.remove().then((value){
+                Navigator.pushNamed(context, RoutesName.login);
+              });
+            },
+            child: Text("LogOut")),
       ),
     );
   }
